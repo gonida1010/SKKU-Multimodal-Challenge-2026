@@ -37,14 +37,16 @@ class ModelConfig:
     """Which weights to load and how. Swap `model` for a different checkpoint.
 
     Rule compliance: weights must have been publicly released before 2026-06-01.
-      - Qwen/Qwen3-VL-30B-A3B-Thinking   (2025-10, MoE 31B total / 3B active)  <- default
-      - Qwen/Qwen3-VL-30B-A3B-Instruct   (2025-10, faster, no thinking trace)
-      - Qwen/Qwen3.5-35B-A3B             (2026-02, native multimodal, stronger vision)
-      - Qwen/Qwen3-VL-8B-Thinking / -4B  (small, for Colab development)
-    On Ampere (RTX A6000) FP8 is not hardware-accelerated; prefer AWQ/GPTQ INT4
-    community quants when memory is tight, or bf16 if it fits.
+      - Qwen/Qwen3.6-35B-A3B-FP8         (2026-04, native multimodal, MoE 3B active,
+                                          ~35GB -> fits A6000 48GB)  <- default
+      - Qwen/Qwen3.6-35B-A3B             (bf16 ~70GB, needs >1 GPU or more VRAM)
+      - Qwen/Qwen3-VL-30B-A3B-Thinking   (2025-10, MoE 31B/3B active; AWQ for 48GB)
+      - Qwen/Qwen3-VL-8B-Thinking / -4B  (small, for Colab T4/L4 development)
+    NOTE on CUDA: install vLLM with `uv pip install -U vllm --torch-backend=auto`
+    so the wheel matches the driver's CUDA (the eval env is CUDA 12.4; a plain
+    `pip install vllm` pulls a CUDA-13 build -> libcudart.so.13 ImportError).
     """
-    model: str = "Qwen/Qwen3-VL-30B-A3B-Thinking"
+    model: str = "Qwen/Qwen3.6-35B-A3B-FP8"
     # Set to a quantized repo (e.g. an -AWQ variant) or None for the base weights.
     quantization: str | None = None          # e.g. "awq", "gptq", "fp8"
     dtype: str = "bfloat16"

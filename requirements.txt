@@ -6,8 +6,11 @@
 # torch==2.6.0 and pick the vLLM build wheeled for cu124/torch2.6.
 
 # --- core inference ---
-vllm>=0.9.0            # Qwen3-VL multimodal + MoE support; matches torch 2.6 builds
-torch==2.6.0
+# IMPORTANT: install vLLM so the CUDA build matches the GPU driver. A plain
+# `pip install vllm` may pull a CUDA-13 wheel and fail with libcudart.so.13 on
+# the CUDA-12.4 eval env / Colab. Use:
+#     pip install uv && uv pip install -U vllm --torch-backend=auto --system
+vllm                  # latest; supports Qwen3.6 (native multimodal MoE)
 transformers>=4.51.0
 accelerate>=1.0.0
 qwen-vl-utils>=0.0.8  # Qwen-VL image preprocessing helpers

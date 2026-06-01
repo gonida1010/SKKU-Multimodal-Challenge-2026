@@ -53,17 +53,26 @@ class VLLMRunner:
 
     def _sampling_params(self, scfg: SamplingConfig, json_schema: dict | None):
         from vllm import SamplingParams
-        guided = None
-        if json_schema is not None:
-            from vllm.sampling_params import GuidedDecodingParams
-            guided = GuidedDecodingParams(json=json_schema)
-        return SamplingParams(
+        kw = dict(
             temperature=scfg.temperature,
             top_p=scfg.top_p,
             max_tokens=scfg.max_tokens,
             seed=scfg.seed,
-            guided_decoding=guided,
         )
+        if json_schema is None:
+            return SamplingParams(**kw)
+        # vLLM >= 0.12 removed GuidedDecodingParams in favor of StructuredOutputsParams.
+        # Support both so the code runs on the latest vLLM (Qwen3.6) and older builds.
+        try:
+            from vllm.sampling_params import StructuredOutputsParams
+            return SamplingParams(
+                **kw, structured_outputs=StructuredOutputsParams(json=json_schema)
+            )
+        except ImportError:
+            from vllm.sampling_params import GuidedDecodingParams
+            return SamplingParams(
+                **kw, guided_decoding=GuidedDecodingParams(json=json_schema)
+            )
 
     @staticmethod
     def _to_messages(req: GenRequest) -> list[dict]:
