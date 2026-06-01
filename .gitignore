@@ -1,0 +1,27 @@
+# 대회 제공 자료 / 데이터 (용량·라이선스상 커밋 제외)
+대회소개/
+open/
+.DS_Store
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.python-version
+
+# 가상환경
+.venv/
+venv/
+env/
+
+# 노트북 체크포인트
+.ipynb_checkpoints/
+
+# 산출물 / 캐시
+outputs/
+data/bbq/
+*.log
+
+# CSV (단, 제출 양식은 추적)
+*.csv
+!open/sample_submission.csv

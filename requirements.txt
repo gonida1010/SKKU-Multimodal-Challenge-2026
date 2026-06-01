@@ -1,0 +1,23 @@
+# Eval environment (organizer): RTX A6000 48GB, Python 3.10, CUDA 12.4,
+# PyTorch 2.6.0, Ubuntu 20.04. Pin torch/vLLM to match that env on the final run.
+#
+# Qwen3-VL / Qwen3.5 require a recent vLLM + transformers. On Colab, install the
+# newest compatible vLLM (it pulls a matching torch). On the A6000 eval env keep
+# torch==2.6.0 and pick the vLLM build wheeled for cu124/torch2.6.
+
+# --- core inference ---
+vllm>=0.9.0            # Qwen3-VL multimodal + MoE support; matches torch 2.6 builds
+torch==2.6.0
+transformers>=4.51.0
+accelerate>=1.0.0
+qwen-vl-utils>=0.0.8  # Qwen-VL image preprocessing helpers
+
+# --- data / io ---
+pillow>=10.0.0
+pandas>=2.0.0
+pydantic>=2.0.0
+tqdm>=4.66.0
+
+# --- multi-agent comparison variant (optional, dev only) ---
+langgraph>=0.2.0
+langchain-core>=0.3.0
