@@ -25,3 +25,4 @@ data/bbq/
 # CSV (단, 제출 양식은 추적)
 *.csv
 !open/sample_submission.csv
+CLAUDE.md
