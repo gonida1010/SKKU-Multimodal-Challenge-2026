@@ -26,3 +26,5 @@ data/bbq/
 *.csv
 !open/sample_submission.csv
 CLAUDE.md
+블로그/
+핸드오프/
