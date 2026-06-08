@@ -1,0 +1,8 @@
+# Local Apple Silicon / MacBook runner.
+# Use Python 3.10-3.12. The system Python 3.14 may not have PyTorch wheels.
+torch
+transformers>=4.51.0
+accelerate>=1.0.0
+huggingface_hub>=0.24.0
+pillow>=10.0.0
+tqdm>=4.66.0
