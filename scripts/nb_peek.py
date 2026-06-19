@@ -17,6 +17,31 @@ def main():
     nb = load(path)
     cells = nb["cells"]
 
+    if len(sys.argv) >= 3 and sys.argv[2] == "out":
+        # print captured outputs (stream text + execute_result text/plain) of code cells
+        want = set(int(x) for x in sys.argv[3].split(",")) if len(sys.argv) >= 4 else None
+        for i, c in enumerate(cells):
+            if c["cell_type"] != "code":
+                continue
+            if want is not None and i not in want:
+                continue
+            chunks = []
+            for o in c.get("outputs", []):
+                t = o.get("output_type")
+                if t == "stream":
+                    chunks.append("".join(o.get("text", [])))
+                elif t in ("execute_result", "display_data"):
+                    d = o.get("data", {})
+                    if "text/plain" in d:
+                        chunks.append("".join(d["text/plain"]))
+                elif t == "error":
+                    chunks.append("\n".join(o.get("traceback", []))[:1500])
+            if chunks:
+                print(f"===== CELL {i} OUTPUT =====")
+                print("".join(chunks))
+                print()
+        return
+
     if len(sys.argv) >= 4 and sys.argv[2] == "grep":
         needle = sys.argv[3]
         for i, c in enumerate(cells):
