@@ -14,6 +14,14 @@ __pycache__/
 venv/
 env/
 
+# API 키 + API 비교 관련 전체 (깃 기록 제외)
+.env
+.env.*
+scripts/api_compare.py
+outputs/api_*
+analysis_api/
+analysis_wrong/
+
 # 노트북 체크포인트
 .ipynb_checkpoints/
 
