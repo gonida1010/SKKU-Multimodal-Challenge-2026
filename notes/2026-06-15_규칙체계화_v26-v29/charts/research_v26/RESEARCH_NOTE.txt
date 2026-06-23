@@ -1,0 +1,11 @@
+======================================================================
+v26 RESEARCH NOTE (자동 생성)
+======================================================================
+[A-disambig] 미회수 85건 (research_v26/A_disambig_miss.csv 참조)
+[COREVQA] 오답 최다 태그: [('counting', 73), ('spatial', 25), ('small_object', 7)]
+
+--- 다음 실험 후보 (수치 기반 자동 제안) ---
+  1. COREVQA counting 약세 -> witness 프롬프트에 '먼저 수를 세라' 지시 추가 실험
+  2. negation 오답 존재 -> shortcheck 프롬프트의 부정 검사 조항 강화 A/B
+  3. A-disambig acc 54% -> 미회수 사유 최다군 타겟 프롬프트 보강
+  4. not_unanimous 121건 잔존 -> 3:1 대신 2:1 confirm 완화 재실험(오염 모니터 필수)
