@@ -457,6 +457,7 @@ ANALYSIS = r"""# ═════════════════════
 # ══════════════════════════════════════════════════════════════
 import csv, re
 from collections import Counter
+import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.rcParams['font.size'] = 11
 
