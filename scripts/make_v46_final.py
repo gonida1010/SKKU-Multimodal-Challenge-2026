@@ -783,7 +783,7 @@ cells = [
     md(BENCH_INTRO),               # 14
     code(corevqa_setup),           # 15
     code(COREVQA_RUN),             # 16
-    code(SBBENCH_SKIP),            # 17
+    code(SBBENCH_CELL),            # 17
     code(METAMORPHIC),             # 18
     code(BENCH_SUMMARY),           # 19
 ]
@@ -833,7 +833,7 @@ checks = [
     ("datasets install",          "datasets" in install_with_bench),
     ("COREVQA run_corevqa",       "run_corevqa" in all_src),
     ("COREVQA ENTAIL",            "ENTAIL_SHORTCHECK" in all_src),
-    ("SBBench SKIP",              "SKIPPED" in SBBENCH_SKIP),
+    ("SBBench cell",              "SB-Bench" in SBBENCH_CELL and "run_sbbench" in SBBENCH_CELL),
     ("Metamorphic load_bbq",      "load_bbq" in METAMORPHIC),
     ("Metamorphic imports",       "import json, random, urllib.request" in METAMORPHIC),
     ("BBQ OOF BA",                "ba_oof" in METAMORPHIC),
