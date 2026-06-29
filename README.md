@@ -6,6 +6,8 @@
 
 Qwen3.5-9B · 학습 없음 · 프롬프트 엔지니어링만으로 달성
 
+<img src="docs/leaderboard.png" width="700" />
+
 </div>
 
 ---
