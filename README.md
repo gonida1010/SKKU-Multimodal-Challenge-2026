@@ -1,8 +1,21 @@
 # SKKU Multimodal Challenge 2026 — VLM의 사회적 편향을 잡아라
 
-> Qwen3.5-9B 단일 모델로 8,500건의 멀티모달 편향 질문에 답하기.
-> 46번의 실험, 27일간의 기록.
-> **Private 1위 (BA 0.94821) · Public BA 0.9995**
+<div align="center">
+
+<img src="https://img.shields.io/badge/🏆_Private_Leaderboard-1st_Place-FFD700?style=for-the-badge&labelColor=333" />
+
+<br>
+
+<img src="https://img.shields.io/badge/Private_BA-0.94821-FFD700?style=flat-square&logo=target&logoColor=white" height="28" />
+<img src="https://img.shields.io/badge/Public_BA-0.9995-4169E1?style=flat-square&logo=target&logoColor=white" height="28" />
+<img src="https://img.shields.io/badge/Model-Qwen3.5--9B-00C853?style=flat-square&logo=huggingface&logoColor=white" height="28" />
+<img src="https://img.shields.io/badge/Training-None_(Prompt_Only)-FF6F00?style=flat-square&logo=lightning&logoColor=white" height="28" />
+
+<br>
+
+**46번의 실험 · 27일간의 기록 · 추론 36분**
+
+</div>
 
 ---
 
@@ -315,14 +328,6 @@ SKKU-Multimodal-Challenge-2026/
 ---
 
 ## 11. 최종 결과
-
-| 지표 | 점수 |
-| ------ | :----: |
-| **Private BA** | **0.94821** |
-| **순위** | **1위** |
-| Public BA | 0.9995 |
-| 추론 시간 (8,500건) | ~36분 |
-| 추론 시간 (1,500건 예상) | ~6분 |
 
 - 최종 제출: v44 (`colab_v44_submission.ipynb`)
 - 모델: Qwen/Qwen3.5-9B (학습 없음, 프롬프트 엔지니어링만)
