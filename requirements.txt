@@ -1,3 +1,12 @@
+# ── 개발 환경 ──
+# OS: Ubuntu 20.04
+# Python: 3.10
+# CUDA: 12.4
+# PyTorch: 2.6.0
+# GPU: RTX A6000 48GB
+# 모델: Qwen/Qwen3.5-9B (사전학습 모델, 파인튜닝 없음)
+# 개발 및 검증: Google Colab (A100 40GB)
+
 vllm
 pillow>=11,<12
 tqdm
