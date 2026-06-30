@@ -1,6 +1,7 @@
 # 대회 제공 자료 / 데이터 (용량·라이선스상 커밋 제외)
 대회소개/
 open/
+model/
 .DS_Store
 
 # python

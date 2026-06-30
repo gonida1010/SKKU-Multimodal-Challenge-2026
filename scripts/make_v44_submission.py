@@ -35,37 +35,19 @@ pa_m = _re.search(r'(_ANS = .*?def parse_answer.*?)(?=\nimport torch)', cell2, _
 PARSE_ANSWER = pa_m.group(1).strip()
 
 # ════════════════════════════════════════════════════════════════
-# Cell 0: 설치
-# ════════════════════════════════════════════════════════════════
-INSTALL = """# 패키지 설치 (실행 후 런타임 재시작)
-!pip uninstall -y -q vllm torch torchvision torchaudio xformers flash-attn flashinfer-python triton pillow Pillow 2>/dev/null
-!pip install -q -U uv
-!uv pip install -q -U vllm --system
-!pip install -q --no-cache-dir --force-reinstall "pillow>=11,<12"
-print("설치 완료. 런타임 재시작 후 다음 셀부터 실행.")
-"""
-
-# ════════════════════════════════════════════════════════════════
-# Cell 1: 임포트 + 모델 로드
+# Cell 0: 임포트 + 모델 로드
 # ════════════════════════════════════════════════════════════════
 IMPORTS_AND_MODEL = (
     '# 임포트 + 모델 로드\n'
-    'import os, sys, json, re, base64, csv, random, time, zipfile\n'
+    'import os, sys, json, re, base64, csv, time\n'
     'from io import BytesIO\n'
     'from pathlib import Path\n'
     'from PIL import Image\n'
     'from tqdm.auto import tqdm\n'
-    '\n'
-    'os.environ["VLLM_ENABLE_V1_MULTIPROCESSING"] = "0"\n'
-    'try:\n'
-    '    sys.stdout.fileno()\n'
-    'except Exception:\n'
-    '    sys.stdout.fileno = lambda: 1; sys.stderr.fileno = lambda: 2\n'
-    '\n'
     'import torch\n'
     'from vllm import LLM, SamplingParams\n'
     '\n'
-    'MODEL = "Qwen/Qwen3.5-9B"\n'
+    'MODEL = "./model"\n'
     'MAX_TOKENS = 128\n'
     '\n'
     'print("GPU:", torch.cuda.get_device_name(0), "|",\n'
@@ -129,16 +111,9 @@ CONSTANTS_AND_FUNCS = (
 # Cell 3: 데이터 로드
 # ════════════════════════════════════════════════════════════════
 DATA_LOAD = """# 데이터 로드
-from google.colab import drive
-drive.mount('/content/drive')
-PROJECT = '/content/drive/MyDrive/SKKU-Multimodal-Challenge-2026'
-os.makedirs(f'{PROJECT}/outputs', exist_ok=True)
-OUTPUT_DIR = f'{PROJECT}/outputs'
-
-ZIP = f'{PROJECT}/open.zip'
-if not os.path.isdir('/content/open') and not os.path.isdir('/content/test'):
-    with zipfile.ZipFile(ZIP) as z: z.extractall('/content')
-TEST_DIR = next(c for c in ['/content/open/test', '/content/test'] if os.path.isdir(c))
+TEST_DIR = './test'
+OUTPUT_DIR = './outputs'
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 IMG_ROOT = TEST_DIR
 
 rows, ids = [], []
@@ -494,16 +469,15 @@ print(f"total: {len(final)} | unknown: {n_unk} | commit: {len(final) - n_unk}")
 # Assemble
 # ════════════════════════════════════════════════════════════════
 cells = [
-    code(INSTALL),            # 0
-    code(IMPORTS_AND_MODEL),  # 1
-    code(CONSTANTS_AND_FUNCS),# 2
-    code(DATA_LOAD),          # 3
-    code(CF_BUILD),           # 4
-    code(INFERENCE),          # 5
-    code(MEDIATION),          # 6
-    code(OVERCOMMIT),         # 7
-    code(RECOVERY),           # 8
-    code(SAVE),               # 9
+    code(IMPORTS_AND_MODEL),  # 0
+    code(CONSTANTS_AND_FUNCS),# 1
+    code(DATA_LOAD),          # 2
+    code(CF_BUILD),           # 3
+    code(INFERENCE),          # 4
+    code(MEDIATION),          # 5
+    code(OVERCOMMIT),         # 6
+    code(RECOVERY),           # 7
+    code(SAVE),               # 8
 ]
 
 nb = {
@@ -549,16 +523,16 @@ checks = [
     ("saves CSV",                 "submission_v44.csv" in all_src),
     ("seed=42",                   "seed=42" in all_src),
     ("quality=95",                "quality=95" in all_src),
-    ("10 cells",                  len(cells) == 10),
+    ("9 cells",                   len(cells) == 9),
+    ("no install cell",           "pip install" not in all_src and "pip uninstall" not in all_src),
+    ("no colab import",           "google.colab" not in all_src),
+    ("local model path",          '"./model"' in all_src),
+    ("local data path",           "./test" in all_src),
+    ("offline (no zipfile)",      "zipfile" not in all_src),
     ("no markdown cells",         all(c["cell_type"] == "code" for c in cells)),
     ("no G4/Blackwell",           "blackwell" not in all_src.lower() and "RTX PRO" not in all_src),
     ("no benchmark code",         "run_corevqa" not in all_src and "make_variants" not in all_src),
     ("no run_permsc",             "def run_permsc" not in all_src),
-    ("no v42 comparison",         "v42_preds" not in all_src),
-    ("no duplicate re import",    all_src.count("import re\n") == 0),
-    ("import in cell 1 only",     "import torch" not in "".join(
-        "".join(c["source"]) if isinstance(c["source"], list) else c["source"]
-        for c in cells[2:])),
 ]
 
 ok = sum(1 for _, v in checks if v)
