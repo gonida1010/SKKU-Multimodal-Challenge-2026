@@ -1,12 +1,21 @@
-# ── 개발 환경 ──
+# 제출 대상 기준 환경
 # OS: Ubuntu 20.04
 # Python: 3.10
-# CUDA: 12.4
-# PyTorch: 2.6.0
-# GPU: RTX A6000 48GB
-# 모델: Qwen/Qwen3.5-9B (사전학습 모델, 파인튜닝 없음)
-# 개발 및 검증: Google Colab (A100 40GB)
+# System CUDA: 12.4
+# GPU: NVIDIA RTX A6000 48GB
+#
+# Qwen3.5는 vLLM 0.8.x에서 지원되지 않는다.
+# Qwen3.5를 지원하는 최소 안정 버전인 vLLM 0.17.0은
+# PyTorch 2.10.0 / torchvision 0.25.0 / torchaudio 2.10.0을 요구한다.
+# vLLM 0.17.0 공식 PyPI wheel과 일치시키고 CUDA 13 wheel 선택을 막기 위해
+# CUDA 12 계열의 cu129 PyTorch wheel을 고정한다.
 
-vllm
-pillow>=10.4.0
-tqdm
+--extra-index-url https://download.pytorch.org/whl/cu129
+
+torch==2.10.0+cu129
+torchvision==0.25.0+cu129
+torchaudio==2.10.0+cu129
+vllm==0.17.0
+transformers==4.57.0
+pillow==10.4.0
+tqdm==4.67.1
