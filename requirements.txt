@@ -8,5 +8,5 @@
 # 개발 및 검증: Google Colab (A100 40GB)
 
 vllm
-pillow>=11,<12
+pillow>=10.4.0
 tqdm

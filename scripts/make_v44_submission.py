@@ -44,8 +44,13 @@ IMPORTS_AND_MODEL = (
     'from pathlib import Path\n'
     'from PIL import Image\n'
     'from tqdm.auto import tqdm\n'
+    '\n'
+    'os.environ["VLLM_ENABLE_V1_MULTIPROCESSING"] = "0"\n'
+    '\n'
     'import torch\n'
     'from vllm import LLM, SamplingParams\n'
+    '\n'
+    'T_START = time.time()\n'
     '\n'
     'MODEL = "./model"\n'
     'MAX_TOKENS = 128\n'
@@ -189,7 +194,6 @@ print(f"counterfactual: {len(cf_map)}")
 # Cell 5: Base + CF 추론
 # ════════════════════════════════════════════════════════════════
 INFERENCE = """# Base + CF 추론
-T_START = time.time()
 t0 = time.time(); base = run_single(rows, images); print(f"base {time.time()-t0:.0f}s")
 t0 = time.time(); cf = run_single(cf_rows, cf_imgs); print(f"cf {time.time()-t0:.0f}s")
 """
